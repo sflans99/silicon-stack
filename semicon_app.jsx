@@ -938,9 +938,33 @@ function NodeDetail({ data, nodeId, close }) {
             <div style={sectionStyle}>Market Position</div>
             <ul style={{ ...valStyle, listStyle: 'none', padding: 0 }}>
               {node.market_positions.map((p, i) => (
-                <li key={i} style={{ marginBottom: 4, paddingLeft: 12, position: 'relative' }}>
+                <li key={i} style={{ marginBottom: 6, paddingLeft: 12, position: 'relative' }}>
                   <span style={{ position: 'absolute', left: 0, color: NODE_COLOR[node.node_type] }}>—</span>
-                  {p}
+                  {typeof p === 'string' ? p : (
+                    <span>
+                      <span style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>{matName(p.material)}</span>
+                      {(p.share_pct != null || p.share_pct_range) && (
+                        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#d4a85a', marginLeft: 6 }}>
+                          {p.share_pct != null ? `${p.share_pct}%` : `${p.share_pct_range}%`}
+                        </span>
+                      )}
+                      {(p.rank != null || p.rank_range) && (
+                        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'var(--text-mute)', marginLeft: 4 }}>
+                          #{p.rank != null ? p.rank : p.rank_range}
+                        </span>
+                      )}
+                      {p.year && (
+                        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'var(--text-dim)', marginLeft: 4 }}>
+                          {p.year}
+                        </span>
+                      )}
+                      {p.note && (
+                        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'var(--text-dim)', display: 'block', marginTop: 1 }}>
+                          {p.note}
+                        </span>
+                      )}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
